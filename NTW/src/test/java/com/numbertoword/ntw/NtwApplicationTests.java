@@ -1,4 +1,4 @@
-package NumberToWord.com.NTW;
+package com.numbertoword.ntw;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

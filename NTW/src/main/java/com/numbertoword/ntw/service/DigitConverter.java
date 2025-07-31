@@ -1,4 +1,4 @@
-package NumberToWord.com.NTW.service;
+package com.numbertoword.ntw.service;
 
 public enum DigitConverter {
     ONE(1, "one"),

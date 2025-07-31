@@ -1,4 +1,4 @@
-package NumberToWord.com.NTW.service;
+package com.numbertoword.ntw.service;
 
 import org.springframework.stereotype.Service;
 
@@ -128,41 +128,18 @@ public class ConverterService {
     }
 
     private String validateNumber(String number) {
-        char[] listOfCharacters = number.toCharArray();
-        int countOfPlusSign = 0;
-        int countOfMinusSign = 0;
-        int countOfDotSign = 0;
-        char currentCharacter;
+        if (number == null || number.isEmpty()) return "invalid";
 
-        for (int i = 0; i < listOfCharacters.length; i++) {
-            currentCharacter = listOfCharacters[i];
-             if (currentCharacter == '+') {
-                countOfPlusSign++;
-                if (countOfPlusSign == 2 || i != 0 || listOfCharacters.length == 1) {
-                    return "invalid";
-                }
-            } else if (currentCharacter == '-') {
-                countOfMinusSign++;
-                if (countOfMinusSign == 2 || i != 0 || listOfCharacters.length == 1) {
-                    return "invalid";
-                }
-            } else if (currentCharacter == '.') {
-                countOfDotSign++;
-                if (countOfDotSign == 2) {
-                    return "invalid";
-                }
-            }  else if (!Character.isDigit(currentCharacter)) {
-                 return "invalid";
-             }
-
-        }
-        if (countOfDotSign == 1) {
+        if (number.matches("[+-]?\\d+\\.\\d+")) {
             return "decimalNumber";
-        }
-        if (countOfMinusSign == 1) {
+        } else if (number.matches("-\\d+")) {
             return "negativeNumber";
+        } else if (number.matches("\\+?\\d+")) {
+            return "positiveNumber";
+        } else {
+            return "invalid";
         }
-        return "positiveNumber";
     }
+
 
 }
