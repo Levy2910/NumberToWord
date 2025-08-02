@@ -1,6 +1,8 @@
 package com.numbertoword.ntw.service.converter;
 
 import com.numbertoword.ntw.service.AbstractNumberConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 public class DecimalNumberConverter extends AbstractNumberConverter {
     @Override
@@ -18,7 +20,7 @@ public class DecimalNumberConverter extends AbstractNumberConverter {
         String rawCentPart = parts.length > 1 ? parts[1] : "0";
 
         if (rawCentPart.length() == 1) {
-            rawCentPart = rawCentPart + "0"; //
+            rawCentPart = rawCentPart + "0";
         } else if (rawCentPart.length() > 2) {
             throw new IllegalArgumentException("Cents must be between 0 and 99. Please enter a valid amount.");
         }

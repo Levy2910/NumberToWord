@@ -15,7 +15,7 @@ function App() {
         headers: {
           'Content-Type': 'text/plain',
         },
-        body: number, // plain text, not JSON!
+        body: number,
       });
 
       if (!response.ok) {
@@ -23,7 +23,7 @@ function App() {
         throw new Error(errorMessage);
       }
 
-      const result = await response.text(); // assuming response is plain text
+      const result = await response.text();
       setWord(result);
       setError('');
     } catch (err) {
@@ -31,6 +31,7 @@ function App() {
       setWord('');
     }
   };
+
 
   return (
     <div className="App">
@@ -58,8 +59,12 @@ function App() {
       )}
 
       {error && (
-        <div className="error">
-          <p style={{ color: 'red' }}>{error}</p>
+        <div className="error-box">
+          <strong className="error-title">⚠️ Error:</strong>
+          <p className="error-text">{error}</p>
+          <button className="dismiss-button" onClick={() => setError('')}>
+            Dismiss
+          </button>
         </div>
       )}
     </div>

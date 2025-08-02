@@ -1,48 +1,139 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+
 .App {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   text-align: center;
-    max-width: 500px;
-    height: 500px;
-    margin: 50px auto;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: pink;
 }
 
 
-h2 {
-  margin-bottom: 2em;
+.logo {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 1.5rem;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 20px;
-}
 
-input[type="text"] {
-  padding: 10px;
-  font-size: 16px;
+input[type='text'] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  transition: border 0.2s ease;
 }
+
+input[type='text']:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+/* Button styling */
+button[type='submit'],
+.dismiss-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+button[type='submit']:hover,
+.dismiss-button:hover {
+  background-color: #135ba1;
+  transform: scale(1.03);
+}
+
 
 .note {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #666;
-  line-height: 1.4;
+  margin-bottom: 1.5rem;
 }
 
-button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+
+.result {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: #f4f8ff;
+  border: 1px solid #a2c2ff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+
+.error-box {
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 8px;
+  color: #990000;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.error-title {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Dismiss button */
+.dismiss-button {
+  margin-top: 1rem;
+  background-color: #ff4d4d;
+}
+
+.dismiss-button:hover {
+  background-color: #cc0000;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .App {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  input[type='text'] {
+    font-size: 0.95rem;
+  }
+
+  button[type='submit'],
+  .dismiss-button {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .result,
+  .error-box {
+    width: 100%;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+  }
 }

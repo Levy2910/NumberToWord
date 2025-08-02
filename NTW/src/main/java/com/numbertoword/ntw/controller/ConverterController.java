@@ -25,7 +25,7 @@ public class ConverterController {
         } catch (Exception e) {
             return ResponseEntity
                     .badRequest()
-                    .body("Invalid input: " + e.getMessage());
+                    .body(e.getMessage());
         }
     }
 }
