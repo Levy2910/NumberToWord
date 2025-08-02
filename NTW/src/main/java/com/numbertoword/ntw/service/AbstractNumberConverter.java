@@ -95,17 +95,5 @@ public class AbstractNumberConverter implements NumberConverter{
         return buildString.toString().trim();
     }
 
-    protected String validateNumber(String number) {
-        if (number == null || number.isEmpty()) return "invalid";
 
-        if (number.matches("[+-]?\\d+\\.\\d+")) {
-            return "decimalNumber";
-        } else if (number.matches("-\\d+")) {
-            return "negativeNumber";
-        } else if (number.matches("\\+?\\d+")) {
-            return "positiveNumber";
-        } else {
-            return "invalid";
-        }
-    }
 }

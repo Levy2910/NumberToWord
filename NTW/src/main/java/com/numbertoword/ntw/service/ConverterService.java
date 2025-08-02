@@ -14,17 +14,25 @@ public class ConverterService {
 
     public String handleConverter(String number) {
         String trimmed = number.trim();
-        String type = new PositiveNumberConverter().validateNumber(trimmed);
+        String type = validateNumber(trimmed);
 
-        switch (type) {
-            case "positiveNumber":
-                return positiveConverter.convert(trimmed);
-            case "negativeNumber":
-                return negativeConverter.convert(trimmed);
-            case "decimalNumber":
-                return decimalConverter.convert(trimmed);
-            default:
-                throw new IllegalArgumentException("Invalid input: " + number);
+        return switch (type) {
+            case "positiveNumber" -> positiveConverter.convert(trimmed);
+            case "negativeNumber" -> negativeConverter.convert(trimmed);
+            case "decimalNumber" -> decimalConverter.convert(trimmed);
+            default -> throw new IllegalArgumentException("Invalid input: " + number);
+        };
+    }
+    public String validateNumber(String number) {
+        if (number == null || number.isEmpty()) return "invalid";
+        if (number.matches("[+-]?\\d+\\.\\d+")) {
+            return "decimalNumber";
+        } else if (number.matches("-\\d+")) {
+            return "negativeNumber";
+        } else if (number.matches("\\+?\\d+")) {
+            return "positiveNumber";
+        } else {
+            return "invalid";
         }
     }
 }
