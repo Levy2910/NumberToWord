@@ -1,4 +1,4 @@
-package com.numbertoword.ntw.service;
+package com.numbertoword.ntw.service.enums;
 
 public enum DigitConverter {
     ONE(1, "one"),
