@@ -33,4 +33,4 @@ Frontend will be available at:
 ➡️ http://localhost:3000
 
 Screenshots:
-<img width="1710" height="1074" alt="Screenshot 2025-08-02 at 2 09 55 PM" src="https://github.com/user-attachments/assets/f362a57c-5520-4a5a-b000-6c1941d2ccec" />
+<img width="1708" height="939" alt="Screenshot 2025-08-02 at 2 11 08 PM" src="https://github.com/user-attachments/assets/e01d59ce-0356-43c7-a7dd-a54990ab456f" />
