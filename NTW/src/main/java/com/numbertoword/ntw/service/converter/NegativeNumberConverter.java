@@ -1,7 +1,9 @@
 package com.numbertoword.ntw.service.converter;
 
 import com.numbertoword.ntw.service.AbstractNumberConverter;
+import org.springframework.stereotype.Component;
 
+@Component("negativeNumber")
 public class NegativeNumberConverter extends AbstractNumberConverter {
     @Override
     public String convert(String number) {

@@ -19,81 +19,82 @@ public class AbstractNumberConverter implements NumberConverter{
         return number;
     }
     protected String handleNormalNumber(String cleanedNumber) {
-        if (cleanedNumber.isEmpty()){
+        if (cleanedNumber.isEmpty()) {
             return "zero";
         }
-        if (cleanedNumber.length() > 12) {
-            throw new IllegalArgumentException("trillion not supported " + cleanedNumber);
+
+        if (cleanedNumber.length() > 15) {
+            throw new IllegalArgumentException("Numbers larger than quadrillion are not supported: " + cleanedNumber);
         }
+
+
+        final String[] GROUP_NAMES = {"", "thousand", "million", "billion", "trillion", "quadrillion"};
+
         StringBuilder result = new StringBuilder();
-        int length = cleanedNumber.length();
+        int groupIndex = 0;
 
-        if (length >= 10) {
-            String firstGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 3));
-            String secondGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 6, length - 3));
-            String thirdGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 9, length - 6));
-            String fourthGroup = handleOneSplitOfDigit(cleanedNumber.substring(0, length - 9));
-            if (!fourthGroup.isBlank()) result.append(fourthGroup).append(" billion ");
-            if (!thirdGroup.isBlank()) result.append(thirdGroup).append(" million ");
-            if (!secondGroup.isBlank()) result.append(secondGroup).append(" thousand ");
-            result.append(firstGroup);
-            return result.toString().trim();
+
+        while (!cleanedNumber.isEmpty()) {
+            int end = cleanedNumber.length();
+            int start = Math.max(end - 3, 0);
+            String groupValue = handleOneSplitOfDigit(cleanedNumber.substring(start, end));
+
+            if (!groupValue.isBlank()) {
+                if (!GROUP_NAMES[groupIndex].isEmpty()) {
+                    groupValue += " " + GROUP_NAMES[groupIndex];
+                }
+
+                if (result.length() > 0) {
+                    result.insert(0, " ");
+                }
+                result.insert(0, groupValue);
+            }
+
+            cleanedNumber = cleanedNumber.substring(0, start);
+            groupIndex++;
         }
 
-        if (length >= 7) {
-            String firstGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 3));
-            String secondGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 6, length - 3));
-            String thirdGroup = handleOneSplitOfDigit(cleanedNumber.substring(0, length - 6));
-            if (!thirdGroup.isBlank()) result.append(thirdGroup).append(" million ");
-            if (!secondGroup.isBlank()) result.append(secondGroup).append(" thousand ");
-            result.append(firstGroup);
-            return result.toString().trim();
-        }
-
-        if (length >= 4) {
-            String firstGroup = handleOneSplitOfDigit(cleanedNumber.substring(length - 3));
-            String secondGroup = handleOneSplitOfDigit(cleanedNumber.substring(0, length - 3));
-            if (!secondGroup.isBlank()) result.append(secondGroup).append(" thousand ");
-            result.append(firstGroup);
-            return result.toString().trim();
-        }
-
-        return handleOneSplitOfDigit(cleanedNumber);
+        return result.toString().trim();
     }
 
-    protected String handleOneSplitOfDigit(String trimedNumber) {
-        StringBuilder buildString = new StringBuilder();
-        int len = trimedNumber.length();
-        if (len == 3 && trimedNumber.charAt(0) != '0') {
-            String convertHundred = DigitConverter.fromDigit(Character.getNumericValue(trimedNumber.charAt(0)));
-            buildString.append(convertHundred).append(" hundred ");
+
+    protected String handleOneSplitOfDigit(String chunk) {
+        StringBuilder result = new StringBuilder();
+
+        // "7" -> "007", "45" -> "045"
+        chunk = String.format("%3s", chunk).replace(' ', '0');
+
+        int hundredsDigit = Character.getNumericValue(chunk.charAt(0));
+        int tensDigit = Character.getNumericValue(chunk.charAt(1));
+        int unitsDigit = Character.getNumericValue(chunk.charAt(2));
+
+        // Handle hundreds
+        if (hundredsDigit != 0) {
+            result.append(DigitConverter.fromDigit(hundredsDigit)).append(" hundred");
+            if (tensDigit != 0 || unitsDigit != 0) {
+                result.append(" ");
+            }
         }
 
-        int startIndex = len == 3 ? 1 : 0;
-
-        if (trimedNumber.length() - startIndex == 2) {
-            char tens = trimedNumber.charAt(startIndex);
-            char units = trimedNumber.charAt(startIndex + 1);
-
-            if (tens == '1') {
-                int teenValue = Integer.parseInt(trimedNumber.substring(startIndex));
-                buildString.append(TeenConverter.from(teenValue));
-                return buildString.toString().trim();
+        // Handle tens & units
+        if (tensDigit == 1) { // teens
+            int teenValue = tensDigit * 10 + unitsDigit;
+            result.append(TeenConverter.from(teenValue));
+        } else {
+            if (tensDigit != 0) {
+                result.append(TenConverter.from(tensDigit));
+                if (unitsDigit != 0) {
+                    result.append(" ");
+                }
             }
-
-            if (tens != '0') {
-                buildString.append(TenConverter.from(Character.getNumericValue(tens))).append(" ");
+            if (unitsDigit != 0) {
+                result.append(DigitConverter.fromDigit(unitsDigit));
             }
-
-            if (units != '0') {
-                buildString.append(DigitConverter.fromDigit(Character.getNumericValue(units)));
-            }
-        } else if (trimedNumber.length() - startIndex == 1 && trimedNumber.charAt(startIndex) != '0') {
-            buildString.append(DigitConverter.fromDigit(Character.getNumericValue(trimedNumber.charAt(startIndex))));
         }
 
-        return buildString.toString().trim();
+        return result.toString().trim();
     }
+
 
 
 }

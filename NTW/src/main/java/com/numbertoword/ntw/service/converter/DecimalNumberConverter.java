@@ -2,13 +2,14 @@ package com.numbertoword.ntw.service.converter;
 
 import com.numbertoword.ntw.service.AbstractNumberConverter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-
+@Component("decimalNumber")
 public class DecimalNumberConverter extends AbstractNumberConverter {
     @Override
     public String convert(String number) {
         if (number.charAt(0) == '-'){
-            return "minus " + convertDecimalPositive(number);
+            return "minus " + convertDecimalPositive(number.substring(1));
         }
         return convertDecimalPositive(number);
     }

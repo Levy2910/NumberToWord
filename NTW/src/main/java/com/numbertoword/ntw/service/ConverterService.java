@@ -1,28 +1,30 @@
 package com.numbertoword.ntw.service;
 
-import com.numbertoword.ntw.service.converter.DecimalNumberConverter;
-import com.numbertoword.ntw.service.converter.NegativeNumberConverter;
-import com.numbertoword.ntw.service.converter.PositiveNumberConverter;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class ConverterService {
 
-    private final NumberConverter positiveConverter = new PositiveNumberConverter();
-    private final NumberConverter negativeConverter = new NegativeNumberConverter();
-    private final NumberConverter decimalConverter = new DecimalNumberConverter();
+    private final Map<String, NumberConverter> converters;
+
+    public ConverterService(Map<String, NumberConverter> converters) {
+        this.converters = converters;
+    }
 
     public String handleConverter(String number) {
         String trimmed = number.trim();
         String type = validateNumber(trimmed);
 
-        return switch (type) {
-            case "positiveNumber" -> positiveConverter.convert(trimmed);
-            case "negativeNumber" -> negativeConverter.convert(trimmed);
-            case "decimalNumber" -> decimalConverter.convert(trimmed);
-            default -> throw new IllegalArgumentException("Invalid input: " + number);
-        };
+        NumberConverter converter = converters.get(type);
+        if (converter == null) {
+            throw new IllegalArgumentException("Invalid input: " + number);
+        }
+
+        return converter.convert(trimmed);
     }
+
     public String validateNumber(String number) {
         if (number == null || number.isEmpty()) return "invalid";
         if (number.matches("[+-]?\\d+\\.\\d+")) {

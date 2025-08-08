@@ -1,6 +1,7 @@
 package com.numbertoword.ntw.controller;
 
 import com.numbertoword.ntw.service.ConverterService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +23,12 @@ public class ConverterController {
         try {
             String result = converterService.handleConverter(number);
             return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred.");
         }
     }
+
 }

@@ -17,7 +17,6 @@ public enum DigitConverter {
     DigitConverter(int digit, String word) {
         this.digit = digit;
         this.word = word;
-        System.out.println("Loaded DigitConverter: " + word);
     }
 
 
